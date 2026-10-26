@@ -61,8 +61,9 @@ validate $? "Unzipping catalogue"
 npm install &>> $logs_file
 validate $? "Installing dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name/" "$scripts_dir/catalogue.service" 
+
 cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
+sed -i "s/DOMAIN_NAME/$domain_name/" "$scripts_dir/catalogue.service" 
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable catalogue &>> $logs_file
