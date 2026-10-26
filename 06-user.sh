@@ -73,10 +73,6 @@ validate $? "Starting and enabling user"
 systemctl restart user
 validate $? "Restarting user"
 
-else
-    echo -e "$(timestamp) [INFO] Products are already loaded...${Y}SKIPPING...${N}"
-fi
-
 systemctl restart catalogue
 validate $? "Restarting Catalogue"
 
