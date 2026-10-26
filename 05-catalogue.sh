@@ -61,7 +61,7 @@ validate $? "Unzipping catalogue"
 npm install &>> $logs_file
 validate $? "Installing dependencies"
 
-sed -i "s/DOMAIN_NAME/$domain_name/" "$scripts_dir/catalogue.service" 
+sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/catalogue.service" 
 cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
 
 
@@ -73,9 +73,11 @@ validate $? "Starting and enabling catalogue"
 cp "$scripts_dir/mongo.repo" /etc/yum.repos.d/mongo.repo
 validate $? "Adding Mongo repo"
 
-dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>> $logs_file
 validate $? "Installing MongoDB Client"
 
+mongosh --host "mongodb.$domain_name" </app/db/master-data.js
+validate $? "Loading products"
 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
 echo "$(timestamp) [INFO] ==== Scripted executed ====" | tee -a $logs_file
