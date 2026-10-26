@@ -61,13 +61,13 @@ validate $? "Unzipping catalogue"
 npm install &>> $logs_file
 validate $? "Installing dependencies"
 
-
-cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
 sed -i "s/DOMAIN_NAME/$domain_name/" "$scripts_dir/catalogue.service" 
+cp "$scripts_dir/catalogue.service" /etc/systemd/system/catalogue.service
+
 
 systemctl daemon-reload &>> $logs_file
 systemctl enable catalogue &>> $logs_file
-system start catalogue &>> $logs_file
+systemctl start catalogue &>> $logs_file
 validate $? "Starting and enabling catalogue"
 
 cp "$scripts_dir/mongo.repo" /etc/yum.repos.d/mongo.repo
