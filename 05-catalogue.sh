@@ -3,6 +3,7 @@
 user_id=$(id -u)
 logs_folder="/var/log/roboshop"
 logs_file="${logs_folder}/$0.log"
+domain_name="dopsaws.online"
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -44,6 +45,26 @@ else
     echo -e "System user roboshop already exists...${Y}SKIPPING...${N}"
 fi    
 
+mkdir -p /app
+validate $? "Creating app directory"
+
+curl -L -o /tmp/catalogue.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip
+validate $? "Downloading catalogue"
+
+cd /app
+unzip /tmp/catalogue.zip &>> $logs_file
+validate $? "Unzipping catalogue"
+
+npm install &>> $logs_file
+validate $? "Installing dependencies"
+
+sed -i "s/DOMAIN_NAME/$domain_name" catalogue.service 
+cp catalogue.service /etc/systemd/system/catalogue.service
+
+systemctl daemon-reload &>> $logs_file
+systemctl enable catalogue &>> $logs_file
+system start catalogue &>> $logs_file
+validate $? "Starting and enabling catalogue"
 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
 echo "$(timestamp) [INFO] ==== Scripted executed ====" | tee -a $logs_file
