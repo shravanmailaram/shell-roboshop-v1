@@ -42,7 +42,7 @@ if [ $? -ne 0 ]; then
     validate $? "Creating System User"
 else
     echo -e "System user roboshop already exists...${Y}SKIPPING...${N}"
-    
+fi    
 
 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
