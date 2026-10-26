@@ -73,8 +73,5 @@ validate $? "Starting and enabling user"
 systemctl restart user
 validate $? "Restarting user"
 
-systemctl restart catalogue
-validate $? "Restarting Catalogue"
-
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
 echo "$(timestamp) [INFO] ==== Scripted executed ====" | tee -a $logs_file
