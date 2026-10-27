@@ -77,7 +77,7 @@ cp "$scripts_dir/shipping.service" /etc/systemd/system/shipping.service
 dnf install mysql -y
 validate $? "Installing MySQL Client"
 
-mysql -h "mysql.$domain_name" -uroot -pRoboshop@1 < /app/db/master-data.sql
+mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/master-data.sql
 validate $? "Loading shipping data"
 
 systemctl daemon-reload &>> $logs_file
