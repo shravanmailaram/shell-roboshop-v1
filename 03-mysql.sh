@@ -39,7 +39,7 @@ systemctl enable mysqld &>> $logs_file
 systemctl start mysqld
 validate $? "Enable and start MySQL"
 
-mysql_secure_installation --set-root-pass RoboShop@1 &>> $logs_file
+mysql_secure_installation --set-root-pass Roboshop@1 &>> $logs_file
 validate $? "Setup MySQL root password"
 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
