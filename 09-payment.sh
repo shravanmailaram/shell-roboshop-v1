@@ -56,18 +56,18 @@ cd /app
 unzip /tmp/payment.zip &>> $logs_file
 validate $? "Unzipping payment"
 
-python3.14 -m venv /app/.venv
+python3.14 -m venv /app/.venv &>> $logs_file
 validate $? "Creating virtual environment"
 
-/app/.venv/bin/pip install -r requirements.txt
+/app/.venv/bin/pip install -r requirements.txt &>> $logs_file
 validate $? "Installing dependencies"
 
 sed -i "s/DOMAIN_NAME/$domain_name/g" "$scripts_dir/payment.service" 
 cp "$scripts_dir/payment.service" /etc/systemd/system/payment.service
 
-systemctl daemon-reload
-systemctl enable payment
-systemctl restart payment
+systemctl daemon-reload &>> $logs_file
+systemctl enable payment &>> $logs_file
+systemctl restart payment &>> $logs_file
 validate $? "Starting/Restarting payment"
 
 echo "$(timestamp) [INFO] Script completed in $SECONDS seconds"
